@@ -1,23 +1,20 @@
 # **Network Traffic Analysis with tcpdump**
 
 ## **Project Overview**
-The goal of this exercise was to identify network interfaces, inspect network traffic, capture packet data, and filter captured network traffic using `tcpdump` on a Linux system.
+The goal of this exercise was to identify network interfaces, inspect network traffic, capture packet data, and filter captured network traffic using `tcpdump`. The scenario takes place on a virtual Linux system simulating live network traffic.
 
 ---
 
 ## **Task 1: Identify Network Interfaces**
 ![Alt Text](PKT%201.png)
-1. Used the `ifconfig` command to list available network interfaces.
-   - Identified `eth0` as the primary Ethernet interface.
-   - Noted the loopback interface `lo` for internal communications.
+1. First the `ifconfig` command is used to list available network interfaces.
+   - This displays `eth0` as the primary Ethernet interface and `lo` as the loopback interface 
+ for internal communications.
 
 ![Alt Text](PKT%202.png)
 
-2. Verified available interfaces for packet capture using:
-   ```bash
-   sudo tcpdump -D
-   ```
-   - Listed all interfaces capable of capturing network traffic.
+2.  The `sudo tcpdump -D` command reveals all network interfaces capable of packet capture.
+
 
 ---
 
@@ -45,10 +42,13 @@ The goal of this exercise was to identify network interfaces, inspect network tr
    - `-c9`: Captured 9 packets.
    - `-w capture.pcap`: Saved data to `capture.pcap`.
 
+![Alt Text](PKT%205.png)
+
 2. Generated HTTP traffic using:
    ```bash
    curl opensource.google.com
    ```
+![Alt Text](PKT%206.png)
 
 3. Verified successful packet capture:
    ```bash
@@ -58,13 +58,16 @@ The goal of this exercise was to identify network interfaces, inspect network tr
 ---
 
 ## **Task 4: Filter Captured Packet Data**
-
+![Alt Text](PKT%207.png)
+![Alt Text](PKT%207-2.png)
 1. Analyzed packet headers from the `capture.pcap` file:
    ```bash
    sudo tcpdump -nn -r capture.pcap -v
    ```
    - Displayed timestamp, protocol, IP details, flags, and checksum.
 
+![Alt Text](PKT%208.png)
+![Alt Text](PKT%208-2.png)
 2. Extracted detailed hexadecimal and ASCII data:
    ```bash
    sudo tcpdump -nn -r capture.pcap -X
