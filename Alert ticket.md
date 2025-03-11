@@ -1,55 +1,84 @@
-# **Project Overview**
+# **Network Traffic Analysis with tcpdump**
 
-The goal of this project is to update and strengthen the organisation’s current systems by identifying and locating employee devices to ensure they are up to date and secure. This project details the methods used to access and filter SQL queries using the AND, OR, and NOT operators.
+## **Project Overview**
+The goal of this exercise was to identify network interfaces, inspect network traffic, capture packet data, and filter captured network traffic using `tcpdump` on a Linux system.
 
-## **Retrieve After-Hours Failed Login Attempts**
+---
 
-After receiving a security incident report concerning failed login attempts occurring after business hours (after 18:00), I applied the following SQL query to filter any failed login attempts that matched these conditions.
+## **Task 1: Identify Network Interfaces**
+![Alt Text](PKT%201.png)
+1. Used the `ifconfig` command to list available network interfaces.
+   - Identified `eth0` as the primary Ethernet interface.
+   - Noted the loopback interface `lo` for internal communications.
 
-![Alt Text](image3.png)
+![Alt Text](PKT%202.png)
 
-The first section specifies that the data is to be collected from the `log_in_attempts` table (`SELECT * FROM log_in_attempts`), then the `WHERE` and `AND` operators are used to filter all data from the `login_time` column, displaying only login attempts past 18:00 (`WHERE login_time > '18:00'`) and those marked as failed in the `success` column (`AND success = 0;`).
+2. Verified available interfaces for packet capture using:
+   ```bash
+   sudo tcpdump -D
+   ```
+   - Listed all interfaces capable of capturing network traffic.
 
-## **Retrieve Login Attempts on Specific Dates**
+---
 
-A suspicious event occurring on 2022-05-09 was reported, requiring an examination of any login activity between 2022-05-08 and 2022-05-09. Below is the SQL query I used to filter for login attempts within those dates.
+## **Task 2: Inspect Network Traffic with tcpdump**
+![Alt Text](PKT%203.png)
+1. Captured and analyzed live packet data from `eth0`:
+   ```bash
+   sudo tcpdump -i eth0 -v -c5
+   ```
+   - `-i eth0`: Captured data from interface `eth0`.
+   - `-v`: Displayed detailed packet information.
+   - `-c5`: Captured 5 packets before exiting.
 
-![Alt Text](image4.png)
+2. Observed network packet details including timestamps, source/destination IPs, TCP flags, and checksums.
 
-The first section specifies that the data is to be collected from the `log_in_attempts` table (`SELECT * FROM log_in_attempts`), then the `WHERE` and `OR` operators are used to filter all data from the `login_date` column, displaying entries where the login date equals 2022-05-09 (`WHERE login_date = '2022-05-09'`) or 2022-05-08 (`OR login_date = '2022-05-08';`).
+---
 
-## **Retrieve Login Attempts Outside of Mexico**
+## **Task 3: Capture Network Traffic**
+![Alt Text](PKT%204.png)
+1. Captured HTTP (port 80) traffic and saved it to a file:
+   ```bash
+   sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &
+   ```
+   - `-nn`: Disabled IP/port resolution to avoid security risks.
+   - `-c9`: Captured 9 packets.
+   - `-w capture.pcap`: Saved data to `capture.pcap`.
 
-Based on the login attempt records, it was suspected that a login request did not originate from Mexico. Below is the SQL query I used to filter login attempts that occurred outside of Mexico.
+2. Generated HTTP traffic using:
+   ```bash
+   curl opensource.google.com
+   ```
 
-![Alt Text](image6.png)
+3. Verified successful packet capture:
+   ```bash
+   ls -l capture.pcap
+   ```
 
-The first section specifies that the data is to be collected from the `log_in_attempts` table (`SELECT * FROM log_in_attempts`), then the `WHERE`, `NOT`, and `LIKE` operators are used to filter all data where the country does not match "MEX" (`WHERE NOT country LIKE 'MEX%'`). The `%` wildcard is used to represent an unknown string of zero or more characters.
+---
 
-## **Retrieve Employees in Marketing**
+## **Task 4: Filter Captured Packet Data**
 
-I was assigned to update all computers used by employees in the Marketing department. Below is the SQL query I used to filter for computers used by Marketing employees.
+1. Analyzed packet headers from the `capture.pcap` file:
+   ```bash
+   sudo tcpdump -nn -r capture.pcap -v
+   ```
+   - Displayed timestamp, protocol, IP details, flags, and checksum.
 
-![Alt Text](image5.png)
+2. Extracted detailed hexadecimal and ASCII data:
+   ```bash
+   sudo tcpdump -nn -r capture.pcap -X
+   ```
+   - Helped in deep packet inspection for forensic analysis.
 
-The first section specifies that the data is to be collected from the `employees` table (`SELECT * FROM employees`), then the `WHERE`, `AND`, and `LIKE` operators are used to filter all data in the `department` column where the value equals "Marketing" (`WHERE department = 'Marketing'`) and to search for office locations that start with "East-" (`AND office LIKE 'East-%'`). The `%` wildcard represents an unknown string of zero or more characters.
+---
 
-## **Retrieve Employees in Finance or Sales**
+## **Conclusion**
+This exercise provided hands-on experience with `tcpdump` to analyze network traffic. We successfully:
+- Identified network interfaces.
+- Captured and inspected live traffic.
+- Saved network traffic to a file.
+- Filtered and analyzed captured data.
 
-The Finance and Sales department systems also required updates, with different security patches for each, requiring me to filter employees from only these two departments. Below is the SQL query I used.
+Understanding `tcpdump` is crucial for network troubleshooting, security analysis, and forensic investigations.
 
-![Alt Text](image2.png)
-
-The first section specifies that the data is to be collected from the `employees` table (`SELECT * FROM employees`), then the `WHERE`, `LIKE`, and `OR` operators are used to filter data in the `department` column where the value matches "Finance" (`WHERE department LIKE 'Finance'`) or "Sales" (`OR department LIKE 'Sales';`). The `OR` operator was used instead of `AND` to ensure employees from both departments were included.
-
-## **Retrieve All Employees Not in IT**
-
-My team was required to install an additional update for employees who are **not** in the Information Technology (IT) department. This required filtering employees via the `department` column.
-
-![Alt Text](image1.png)
-
-The first section specifies that the data is to be collected from the `employees` table (`SELECT * FROM employees`), then the `WHERE`, `NOT`, and `LIKE` operators are used to exclude employees in the IT department (`WHERE department NOT LIKE 'Information Technology'`).
-
-## **Summary**
-
-By using SQL query operators such as `AND`, `OR`, `LIKE`, and `NOT`, along with the `%` wildcard filter, I was able to efficiently sort and analyse patterns within the organisation's database. This process allowed me to identify vulnerabilities and reduce potential security risks, helping to safeguard the system from future intrusions. 
