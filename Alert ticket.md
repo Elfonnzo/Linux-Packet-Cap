@@ -7,9 +7,9 @@ The goal of this exercise was to identify network interfaces, inspect network tr
 
 ## **Task 1: Identify Network Interfaces**
 
-1. First the `sudo ifconfig` command is used to list available network interfaces.
+1. First, the `sudo ifconfig` command is used to list all available network interfaces.
    - This displays `eth0` as the primary Ethernet interface and `lo` as the loopback interface 
- for internal communications.
+which is used for internal communications.
 
 ![Alt Text](PKT%201.png)
 
@@ -34,18 +34,18 @@ The goal of this exercise was to identify network interfaces, inspect network tr
 
 ## **Task 3: Capture Network Traffic**
 
-1. I now need to restrict our search by using a filter and other tcpdump configuration options to save a sample that contains only web (TCP port 80) network packet data before then saving it to a file:
-   - `-nn`: This Disables the IP/port resolution to avoid security risks.
+1. I now need to restrict my search by using a filter and other tcpdump configuration options to save a sample that contains only web (TCP port 80) network packet data before then saving it to a file:
+   - `-nn`: This disables the IP/port resolution to avoid security risks.
    - `-c9`: Defines that 9 packets are captured.
    - `-w capture.pcap`: Saves the data to `capture.pcap`.
 
 ![Alt Text](PKT%204.png)
 
-2. The `curl` command is then used to generate HTTP (TCP port 80) traffic from the website `opensource.google.com` which I can then capture.
+2. The `curl` command is then used to generate HTTP (TCP port 80) traffic from the website `opensource.google.com` which can then be captured.
 
 ![Alt Text](PKT%205.png)
 
-3. I then verify that the packet capture is successful by using `ls -l capture.pcap` command.
+3. I then verify the success of the packet capture by using the `ls -l capture.pcap` command.
 
 ![Alt Text](PKT%206.png)
 
@@ -53,7 +53,7 @@ The goal of this exercise was to identify network interfaces, inspect network tr
 
 ## **Task 4: Filter Captured Packet Data**
 
-1. Now I can filter the packet header data from the `capture.pcap` file using the `tcpdump` command along with the following options:
+1. Next I filter the packet header data from the `capture.pcap` file using the `tcpdump` command along with the following options:
    - `nn`: Disables port and protocol name lookup.
    - `r`: Reads the capture data from the named file.
    - `v`: Displays detailed packet data.
@@ -63,7 +63,7 @@ The goal of this exercise was to identify network interfaces, inspect network tr
  
 
 
-2. The filter can also be extended to extract more detailed hexadecimal and ASCII data:
+2. The filtering command can also be extended to extract more detailed hexadecimal and ASCII data:
    - `nn`: Disables port and protocol name lookup.
    - `r`: Reads the capture data from the named file.
    - `x`: Displays the hexadecimal and ASCII output format packet data. This is primarily used to detect patterns or anomalies during malware analysis or forensic analysis.
@@ -74,7 +74,7 @@ The goal of this exercise was to identify network interfaces, inspect network tr
 ---
 
 ## **Conclusion**
-By utilising `tcpdump` and its associated options, I was able to analyze network traffic and successfully demonstrate how security analysts:
+By utilising `tcpdump` and its associated options, I successfully analyzed network traffic and demonstrated how security analysts:
 - Identify network interfaces.
 - Capture and inspect live traffic.
 - Save network traffic to a file.
