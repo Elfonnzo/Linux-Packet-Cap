@@ -20,27 +20,21 @@ The goal of this exercise was to identify network interfaces, inspect network tr
 
 ## **Task 2: Inspect Network Traffic with tcpdump**
 ![Alt Text](PKT%203.png)
-1. Captured and analyzed live packet data from `eth0`:
-   ```bash
-   sudo tcpdump -i eth0 -v -c5
-   ```
-   - `-i eth0`: Captured data from interface `eth0`.
-   - `-v`: Displayed detailed packet information.
-   - `-c5`: Captured 5 packets before exiting.
+1. The live network packet data is then filtered from the `eth0` interface with `tcpdump`and is run with the following options:
+   - `-i eth0`: Is used to capture data specifically from the `eth0` interface.
+   - `-v`: Displays detailed packet information.
+   - `-c5`: Defines that 5 packets are captured before exiting.
 
-2. Observed network packet details including timestamps, source/destination IPs, TCP flags, and checksums.
+2. The result gives us the relevant network packet details including timestamps, source/destination IPs, TCP flags, and checksums.
 
 ---
 
 ## **Task 3: Capture Network Traffic**
 ![Alt Text](PKT%204.png)
-1. Captured HTTP (port 80) traffic and saved it to a file:
-   ```bash
-   sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &
-   ```
-   - `-nn`: Disabled IP/port resolution to avoid security risks.
-   - `-c9`: Captured 9 packets.
-   - `-w capture.pcap`: Saved data to `capture.pcap`.
+1. I now need to restrict our search by using a filter and other tcpdump configuration options to save a sample that contains only web (TCP port 80) network packet data before then saving it to a file:
+   - `-nn`: This Disables the IP/port resolution to avoid security risks.
+   - `-c9`: Defines that 9 packets are captured.
+   - `-w capture.pcap`: Saves the data to `capture.pcap`.
 
 ![Alt Text](PKT%205.png)
 
