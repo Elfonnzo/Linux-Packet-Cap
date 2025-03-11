@@ -35,9 +35,12 @@ which is used for internal communications.
 ## **Task 3: Capture Network Traffic**
 
 1. I now need to restrict my search by using a filter and other tcpdump configuration options to save a sample that contains only web (TCP port 80) network packet data before then saving it to a file:
+   - `i eth0`: Captures the data from the eth0 interface.
    - `-nn`: This disables the IP/port resolution to avoid security risks.
-   - `-c9`: Defines that 9 packets are captured.
+   - `-c9`: Defines that 9 packets are captured before exiting.
+   - `port 80` Filters only port 80 traffic. (This is the default HTTP port.)
    - `-w capture.pcap`: Saves the data to `capture.pcap`.
+   - `&` This instructs the Bash shell to run the command in the background.
 
 ![Alt Text](PKT%204.png)
 
