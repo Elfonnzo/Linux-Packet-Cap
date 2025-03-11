@@ -56,7 +56,7 @@ which is used for internal communications.
 
 ## **Task 4: Filter Captured Packet Data**
 
-1. Next I filter the packet header data from the `capture.pcap` file using the `tcpdump` command along with the following options:
+1. Next I filter the packet header data from the `capture.pcap` file using the `sudo tcpdump` command along with the following options:
    - `nn`: Disables port and protocol name lookup.
    - `r`: Reads the capture data from the named file.
    - `v`: Displays detailed packet data.
