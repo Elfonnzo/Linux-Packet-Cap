@@ -7,7 +7,7 @@ The goal of this exercise was to identify network interfaces, inspect network tr
 
 ## **Task 1: Identify Network Interfaces**
 
-1. First the `ifconfig` command is used to list available network interfaces.
+1. First the `sudo ifconfig` command is used to list available network interfaces.
    - This displays `eth0` as the primary Ethernet interface and `lo` as the loopback interface 
  for internal communications.
 
