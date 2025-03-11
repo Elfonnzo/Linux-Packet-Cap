@@ -35,10 +35,10 @@ which is used for internal communications.
 ## **Task 3: Capture Network Traffic**
 
 1. I now need to restrict my search by using a filter and other tcpdump configuration options to save a sample that contains only web (TCP port 80) network packet data before then saving it to a file:
-   - `i eth0`: Captures the data from the eth0 interface.
+   - `-i eth0`: Captures the data from the eth0 interface.
    - `-nn`: This disables the IP/port resolution to avoid security risks.
    - `-c9`: Defines that 9 packets are captured before exiting.
-   - `port 80` Filters only port 80 traffic. (This is the default HTTP port.)
+   - `-port 80` Filters only port 80 traffic. (This is the default HTTP port.)
    - `-w capture.pcap`: Saves the data to `capture.pcap`.
    - `&` This instructs the Bash shell to run the command in the background.
 
@@ -57,9 +57,9 @@ which is used for internal communications.
 ## **Task 4: Filter Captured Packet Data**
 
 1. Next I filter the packet header data from the `capture.pcap` file using the `sudo tcpdump` command along with the following options:
-   - `nn`: Disables port and protocol name lookup.
-   - `r`: Reads the capture data from the named file.
-   - `v`: Displays detailed packet data.
+   - `-nn`: Disables port and protocol name lookup.
+   - `-r`: Reads the capture data from the named file.
+   - `-v`: Displays detailed packet data.
 
 ![Alt Text](PKT%207.png)
 ![Alt Text](PKT%207-2.png)
@@ -67,9 +67,9 @@ which is used for internal communications.
 
 
 2. The filtering command can also be extended to extract more detailed hexadecimal and ASCII data:
-   - `nn`: Disables port and protocol name lookup.
-   - `r`: Reads the capture data from the named file.
-   - `x`: Displays the hexadecimal and ASCII output format packet data. This is primarily used to detect patterns or anomalies during malware analysis or forensic analysis.
+   - `-nn`: Disables port and protocol name lookup.
+   - `-r`: Reads the capture data from the named file.
+   - `-x`: Displays the hexadecimal and ASCII output format packet data. This is primarily used to detect patterns or anomalies during malware analysis or forensic analysis.
 
 ![Alt Text](PKT%208.png)
 ![Alt Text](PKT%208-2.png)
